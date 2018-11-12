@@ -11,7 +11,7 @@ cur.execute(sql)
 
 sql ="""
 CREATE TABLE clientes 
-           (id serial PRIMARY KEY, nombre varchar(40), apellido varchar, patente varchar, creado timestamp, rut integer,  dv integer, );
+           (id serial PRIMARY KEY, nombre varchar(40), apellido varchar, patente varchar, creado timestamp, rut integer,  dv varchar(10) );
 """
 
 cur.execute(sql)
