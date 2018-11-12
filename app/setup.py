@@ -1,4 +1,4 @@
-from configuraciones import *
+666from configuraciones import *
 import psycopg2
 conn = psycopg2.connect("dbname=%s user=%s password=%s"%(database,user,passwd))
 
@@ -10,38 +10,38 @@ CREATE SCHEMA public;"""
 cur.execute(sql)
 
 sql ="""
-CREATE TABLE posts 
-           (id serial PRIMARY KEY, titulo varchar(40), resumen varchar, texto text, creado timestamp);
+CREATE TABLE clientes 
+           (id serial PRIMARY KEY, nombre varchar(40), apellido varchar, patente varchar, creado timestamp, rut integer,  dv integer, );
 """
 
 cur.execute(sql)
 
 
 sql ="""
-CREATE TABLE categorias 
-           (id serial PRIMARY KEY, nombre varchar(40), creado timestamp);
+CREATE TABLE arriendos
+           (id serial PRIMARY KEY, hr_entrada varchar(40), hr_salida varchar(40), cliente_id varchar(40),num_habitacion varchar(40), boleta_id varchar(40),consumos_id  promocion_id timestamp);
 """
 
 cur.execute(sql)
 
 sql ="""
-CREATE TABLE categorias_posts 
-           (categoria_id integer, post_id integer);
+CREATE TABLE habitaciones 
+           (id serial PRIMARY KEY, tipo varchar(40), numero integer, estado integer);
 """
 
 cur.execute(sql)
 
 sql ="""
-CREATE TABLE  usuarios
-           (id serial PRIMARY KEY,rol integer, nombre varchar(40),apellido varchar(40),
-           email varchar(100),passwd varchar(255), creado timestamp);
+CREATE TABLE  consumos
+           (id serial PRIMARY KEY,cantidad integer, producto_id integer,total integer, estado_pedido integer, 
+            creado timestamp);
 """
 
 cur.execute(sql)
 
 sql ="""
-CREATE TABLE comentarios
-           (id serial PRIMARY KEY, comentario varchar(140), post_id integer, usuario_id integer, creado timestamp);
+CREATE TABLE productos
+           (id serial PRIMARY KEY, nombre varchar(140), stock_actual integer, cantidad_horas integer,precio integer, creado timestamp);
 """
 
 cur.execute(sql)
