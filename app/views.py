@@ -23,7 +23,68 @@ def index():
 	cur.execute(sql)
 	posts  = cur.fetchall()
 	return render_template("index.html",categorias=categorias,posts=posts)
-
+#consultas agregadas
+#Primera consulta, la cual selecciona el nombre y apellido de los clientes con habitaciones de tipo normal
+	sql ="""
+	select clientes.nombre, clientes.apellido from clientes, arriendos, habitaciones
+	where habitaciones.numero = arriendos.num_habitacion
+	and habitaciones.tipo = normal
+	"""
+	print sql
+	cur.execute(sql)
+	categorias = cur.fetchall()
+#consulta 2, la cual suma la cantidad de consumos donde la habitación está pedida
+	sql ="""
+	select sum consumos.cantidad
+	from consumos
+	where estado_pedido = 1
+	"""
+	print sql
+	cur.execute(sql)
+	categorias = cur.fetchall()
+#consulta 3, obtener el numero y el estado de la habitacion, del cliente llamado diego el cual ha pagado por un producto mayor a 2000 y
+# a la vez está arrendando.
+	sql = """
+	select habitaciones.numero, habitaciones.estado
+	from habitaciones, clientes, productos, arriendos
+	where clientes.rut = arriendos.cliente_id
+	and clientes.name = "Diego"
+	and productos.precio > 2000
+	and habitaciones.numero = arriendos.num_habitacion
+	"""
+	print sql
+	cur.execute(sql)
+	categorias = cur.fetchall()
+#consulta 4, que calcula la suma de la multiplicación de los productos (su precio) por su cantidad, de los cuales los productos sean aperitivos
+# y que exista al menos un stock actual
+	sql = """
+	select sum (consumos.cantidad * productos.precio)
+	from consumos,productos
+	where consumos.producto_id = productos.id
+	and producto.nombre = "Aperitivo"
+	and producto.stock_actual > 1
+	"""
+	print sql
+	cur.execute(sql)
+	categorias = cur.fetchall()
+#consulta 5, la cual entrega el nombre, apellido y patente del cliente, que arrienda la habitación numero 10, el cual ha consumido
+# más de 2 meriendas como productos, y que tiene una promoción actual de arriendo.
+	sql = """
+	select clientes.nombre, clientes.apellido, clientes.patente
+	from clientes, arriendos, habitaciones, consumos, productos
+	where clientes.rut = arriendos.clientes_id
+	and arriendos.num_habitacion = habitaciones.numero
+	and habitaciones.estado = 1
+	and arriendos.consumo_id = consumo_id
+	and consumos.productos_id= productos_id
+	and producto.nombre = "Merienda"
+	and consumos.cantidad > 2
+	and habitaciones.numero = 10
+	and arriendos.promocion_id = 1
+	"""
+	print sql
+	cur.execute(sql)
+	categorias = cur.fetchall()
 
 @app.route('/post/<post_id>', methods=['GET', 'POST'])
 def post(post_id):
