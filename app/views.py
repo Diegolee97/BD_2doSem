@@ -85,7 +85,78 @@ def index():
 	print sql
 	cur.execute(sql)
 	categorias = cur.fetchall()
+	
+#consulta 6, habitaciones mas proximas a cumplir
+	sql = """
+	
+	select num_habitacion 
+	from arriendos
+	order by desc hora_salida
+	"""
+	print sql
+	cur.execute(sql)
+	categorias = cur.fetchall()
 
+#consulta 7, listado de habitaciones que esten por hacer
+	sql = """
+	
+	
+	select habitaciones.numero 
+	from habitaciones, arrienda 
+	where habitaciones.numero = arrienda.num_habitacion  
+	and estado= limpieza;
+	"""
+	print sql
+	cur.execute(sql)
+	categorias = cur.fetchall()
+	
+#consulta 8 habitaciones disponibles para ocupar
+	sql = """
+	
+	
+	select habitaciones.numero 
+	from habitaciones, arrienda 
+	where habitaciones.numero = arrienda.num_habitacion  
+	and estado= disponible;
+
+
+	"""
+	print sql
+	cur.execute(sql)
+	categorias = cur.fetchall()
+	
+	
+	#consulta 9 lista de productos actuales
+	sql = """
+	
+	
+	
+	select productos.nombre 
+	from productos
+	where stockactual>0 ;
+
+
+	"""
+	print sql
+	cur.execute(sql)
+	categorias = cur.fetchall()
+	
+	
+		#consulta 10
+	sql = """
+	
+	
+	
+	select productos.nombre 
+	from productos
+	where stockactual>0 ;
+
+
+	"""
+	print sql
+	cur.execute(sql)
+	categorias = cur.fetchall()
+	
 @app.route('/post/<post_id>', methods=['GET', 'POST'])
 def post(post_id):
 	if request.method == 'POST':
