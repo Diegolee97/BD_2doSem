@@ -24,11 +24,9 @@ def index():
 	posts  = cur.fetchall()
 	return render_template("index.html",categorias=categorias,posts=posts)
 #consultas agregadas
-#Primera consulta, la cual selecciona el nombre y apellido de los clientes con habitaciones de tipo normal
+#Primera consulta, la cual selecciona el nombre y apellido de los clientes del recinto total
 	sql ="""
-	select clientes.nombre, clientes.apellido from clientes, arriendos, habitaciones
-	where habitaciones.numero = arriendos.num_habitacion
-	and habitaciones.tipo = normal
+	select clientes.nombre, clientes.apellido from clientes
 	"""
 	print sql
 	cur.execute(sql)
@@ -55,20 +53,19 @@ def index():
 	print sql
 	cur.execute(sql)
 	categorias = cur.fetchall()
-#consulta 4, que calcula la suma de la multiplicación de los productos (su precio) por su cantidad, de los cuales los productos sean aperitivos
+#consulta 4, que calcula la suma de la multiplicación de los productos (su precio) por su cantidad, del total de productos
 # y que exista al menos un stock actual
 	sql = """
 	select sum (consumos.cantidad * productos.precio)
 	from consumos,productos
 	where consumos.producto_id = productos.id
-	and producto.nombre = "Aperitivo"
 	and producto.stock_actual > 1
 	"""
 	print sql
 	cur.execute(sql)
 	categorias = cur.fetchall()
 #consulta 5, la cual entrega el nombre, apellido y patente del cliente, que arrienda la habitación numero 10, el cual ha consumido
-# más de 2 meriendas como productos, y que tiene una promoción actual de arriendo.
+# más de 2 meriendas como productos, y que tiene una promoción actual de arriendo. Esta hay que corregir
 	sql = """
 	select clientes.nombre, clientes.apellido, clientes.patente
 	from clientes, arriendos, habitaciones, consumos, productos
